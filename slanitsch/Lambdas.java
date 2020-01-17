@@ -1,6 +1,7 @@
 package slanitsch;
 
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -8,14 +9,11 @@ public class Lambdas {
 
     /**
      * Main Methode
-     * @param args
+     * @param args Argumente der Main Methode
      */
     public static void main(String[] args) {
-        Collection<String> test = new LinkedList<>();
-        test.add("TEST");
-        test.add("test");
-        test.add("Hallo123");
-        test.add("Passt");
+        Collection<String> test = new LinkedList<>(Arrays.asList("Test", "TEST", "test", "Test2", "Passt"));
+        print(test);
         System.out.println(hauptworte(test));
     }
 
@@ -23,7 +21,7 @@ public class Lambdas {
      * Printet eine Collection mit einem Element pro Zeile.
      * @param collection Collection die geprintet werden soll
      */
-    public static void print(Collection<?> collection){
+    private static void print(Collection<?> collection){
         collection.forEach(System.out::println);
     }
 
