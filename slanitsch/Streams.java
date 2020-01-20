@@ -58,7 +58,7 @@ public class Streams {
      */
     private static List<String> firstTwoWinners(){
         List<String> output = new LinkedList<>();
-        firstTwoWinnersList().stream().forEach(n -> output.add(n.getName()));
+        firstTwoWinnersList().forEach(n -> output.add(n.getName()));
         return output;
     }
 
@@ -68,7 +68,7 @@ public class Streams {
      */
     private static List<String> distinctTDFWinners(){
         List<String> output = new LinkedList<>();
-        tdfWinners.stream().forEach(n -> output.add(n.getName()));
+        tdfWinners.forEach(n -> output.add(n.getName()));
         return output;
     }
 
