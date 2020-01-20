@@ -44,7 +44,7 @@ public class Winner {
      * Errechnet die Durchschnittsgeschwindigkeit der TDF.
      * @return Durchschnittsgeschwindigkeit als Double
      */
-    public double getAveSpeed() {
+    double getAveSpeed() {
         return (getLengthKm() / (getWinningTime().getSeconds() / 3600));
     }
 
@@ -52,7 +52,7 @@ public class Winner {
      * Liefert das Jahr der TDF.
      * @return Jahr als Integer
      */
-    public int getYear() {
+    int getYear() {
         return year;
     }
 
@@ -100,7 +100,7 @@ public class Winner {
      * Ermittelt das Team des Siegers.
      * @return Teamname als String
      */
-    public String getTeam() {
+    String getTeam() {
         return team;
     }
 
