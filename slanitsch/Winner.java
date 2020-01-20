@@ -1,3 +1,5 @@
+package slanitsch;
+
 import java.time.Duration;
 import java.util.*;
 
