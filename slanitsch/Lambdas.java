@@ -75,6 +75,16 @@ public class Lambdas {
      * @return sortierte Liste
      */
     private static List<String> numerisch(String... elements) {
-        return Arrays.stream(elements).sorted().collect(Collectors.toList());
+        List<String> out = Arrays.asList(elements);
+        out.sort((o1, o2) -> {
+            if (!o1.matches("-?\\d*")) {
+                return 1;
+            }
+            if (!o2.matches("-?\\d*")) {
+                return -1;
+            }
+            return Integer.compare(Integer.parseInt(o1), Integer.parseInt(o2));
+        });
+        return out;
     }
 }

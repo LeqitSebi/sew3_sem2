@@ -3,8 +3,8 @@ package slanitsch;
 import java.time.Duration;
 import java.util.*;
 
-import static java.util.stream.Collectors.*;
 
+@SuppressWarnings({"IntegerDivisionInFloatingPointContext", "unused", "CheckStyle"})
 public class Winner {
     private int year;
     private String nationality;
@@ -15,7 +15,7 @@ public class Winner {
     private int stageWins;
     private int daysInYellow;
 
-    public static final List<Winner> tdfWinners = Arrays.asList(
+    static final List<Winner> tdfWinners = Arrays.asList(
             new Winner(2006, "Spain", "Óscar Pereiro", "Caisse d'Epargne–Illes Balears", 3657, Duration.parse("PT89H40M27S"), 8),
             new Winner(2007, "Spain", "Alberto Contador", "Discovery Channel", 3570, Duration.parse("PT91H00M26S"), 4),
             new Winner(2008, "Spain", "Carlos Sastre", "Team CSC", 3559, Duration.parse("PT87H52M52S"), 5),
@@ -30,7 +30,7 @@ public class Winner {
     );
 
 
-    public Winner(int year, String nationality, String name, String team, int lengthKm, Duration winningTime, int daysInYellow) {
+    private Winner(int year, String nationality, String name, String team, int lengthKm, Duration winningTime, int daysInYellow) {
         this.year = year;
         this.nationality = nationality;
         this.name = name;
@@ -40,70 +40,138 @@ public class Winner {
         this.daysInYellow = daysInYellow;
     }
 
+    /**
+     * Errechnet die Durchschnittsgeschwindigkeit der TDF.
+     * @return Durchschnittsgeschwindigkeit als Double
+     */
     public double getAveSpeed() {
         return (getLengthKm() / (getWinningTime().getSeconds() / 3600));
     }
 
+    /**
+     * Liefert das Jahr der TDF.
+     * @return Jahr als Integer
+     */
     public int getYear() {
         return year;
     }
 
+    /**
+     * Setzt das Jahr einer TDF.
+     * @param year Jahr als Integer
+     */
     public void setYear(int year) {
         this.year = year;
     }
 
+    /**
+     * Ermittle die Nationalität des Gewinners.
+     * @return Nationalität als String
+     */
     public String getNationality() {
         return nationality;
     }
 
+    /**
+     * Setzt die Nationalität eines Siegers.
+     * @param nationality Nationalität als String
+     */
     public void setNationality(String nationality) {
         this.nationality = nationality;
     }
 
-    public String getName() {
+    /**
+     * Ermittelt den Namen des Siegers.
+     * @return Name als String
+     */
+    String getName() {
         return name;
     }
 
+    /**
+     * Setzt den Namen des Siegers.
+     * @param name Name des Siegers
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Ermittelt das Team des Siegers.
+     * @return Teamname als String
+     */
     public String getTeam() {
         return team;
     }
 
+    /**
+     * Ermittelt das Team des Siegers.
+     * @param team Teamname als String
+     */
     public void setTeam(String team) {
         this.team = team;
     }
 
-    public int getLengthKm() {
+    /**
+     * Ermittelt die Länge der Tour.
+     * @return Länge in KM als Integer
+     */
+    int getLengthKm() {
         return lengthKm;
     }
 
+    /**
+     * Setzt die Länge der Tour.
+     * @param lengthKm Länge in KM als Integer
+     */
     public void setLengthKm(int lengthKm) {
         this.lengthKm = lengthKm;
     }
 
-    public Duration getWinningTime() {
+    /**
+     * Ermittelt die gefahrene Zeit des Siegers.
+     * @return Zeit als Duration
+     */
+    private Duration getWinningTime() {
         return winningTime;
     }
 
+    /**
+     * Setzt die gefahrene Zeit des Siegers.
+     * @param winningTime WinningTime als Duration
+     */
     public void setWinningTime(Duration winningTime) {
         this.winningTime = winningTime;
     }
 
+    /**
+     * Ermittelt die EtappenSiege.
+     * @return EttapenSiege als Integer
+     */
     public int getStageWins() {
         return stageWins;
     }
 
+    /**
+     * Setzt die EtappenSiege.
+     * @param stageWins EttapenSiege als Integer
+     */
     public void setStageWins(int stageWins) {
         this.stageWins = stageWins;
     }
 
+    /**
+     * Ermittelt die Tage die der Sieger als Führer fuhr.
+     * @return Führungstage als Integer
+     */
     public int getDaysInYellow() {
         return daysInYellow;
     }
 
+    /**
+     * Setzt die Tage die der Sieger als Führer fuhr.
+     * @param daysInYellow Führungstage als Integer
+     */
     public void setDaysInYellow(int daysInYellow) {
         this.daysInYellow = daysInYellow;
     }
