@@ -70,6 +70,7 @@ public class Lambdas {
 
     /**
      * Sortiert eine Liste.
+     *
      * @param elements String array zum sortieren
      * @return sortierte Liste
      */

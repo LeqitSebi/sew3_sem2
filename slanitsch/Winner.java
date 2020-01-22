@@ -42,6 +42,7 @@ public class Winner {
 
     /**
      * Errechnet die Durchschnittsgeschwindigkeit der TDF.
+     *
      * @return Durchschnittsgeschwindigkeit als Double
      */
     double getAveSpeed() {
@@ -50,6 +51,7 @@ public class Winner {
 
     /**
      * Liefert das Jahr der TDF.
+     *
      * @return Jahr als Integer
      */
     int getYear() {
@@ -58,6 +60,7 @@ public class Winner {
 
     /**
      * Setzt das Jahr einer TDF.
+     *
      * @param year Jahr als Integer
      */
     public void setYear(int year) {
@@ -66,6 +69,7 @@ public class Winner {
 
     /**
      * Ermittle die Nationalität des Gewinners.
+     *
      * @return Nationalität als String
      */
     public String getNationality() {
@@ -74,6 +78,7 @@ public class Winner {
 
     /**
      * Setzt die Nationalität eines Siegers.
+     *
      * @param nationality Nationalität als String
      */
     public void setNationality(String nationality) {
@@ -82,6 +87,7 @@ public class Winner {
 
     /**
      * Ermittelt den Namen des Siegers.
+     *
      * @return Name als String
      */
     String getName() {
@@ -90,6 +96,7 @@ public class Winner {
 
     /**
      * Setzt den Namen des Siegers.
+     *
      * @param name Name des Siegers
      */
     public void setName(String name) {
@@ -98,6 +105,7 @@ public class Winner {
 
     /**
      * Ermittelt das Team des Siegers.
+     *
      * @return Teamname als String
      */
     String getTeam() {
@@ -106,6 +114,7 @@ public class Winner {
 
     /**
      * Ermittelt das Team des Siegers.
+     *
      * @param team Teamname als String
      */
     public void setTeam(String team) {
@@ -114,6 +123,7 @@ public class Winner {
 
     /**
      * Ermittelt die Länge der Tour.
+     *
      * @return Länge in KM als Integer
      */
     int getLengthKm() {
@@ -122,6 +132,7 @@ public class Winner {
 
     /**
      * Setzt die Länge der Tour.
+     *
      * @param lengthKm Länge in KM als Integer
      */
     public void setLengthKm(int lengthKm) {
@@ -130,6 +141,7 @@ public class Winner {
 
     /**
      * Ermittelt die gefahrene Zeit des Siegers.
+     *
      * @return Zeit als Duration
      */
     private Duration getWinningTime() {
@@ -138,6 +150,7 @@ public class Winner {
 
     /**
      * Setzt die gefahrene Zeit des Siegers.
+     *
      * @param winningTime WinningTime als Duration
      */
     public void setWinningTime(Duration winningTime) {
@@ -146,6 +159,7 @@ public class Winner {
 
     /**
      * Ermittelt die EtappenSiege.
+     *
      * @return EttapenSiege als Integer
      */
     public int getStageWins() {
@@ -154,6 +168,7 @@ public class Winner {
 
     /**
      * Setzt die EtappenSiege.
+     *
      * @param stageWins EttapenSiege als Integer
      */
     public void setStageWins(int stageWins) {
@@ -162,6 +177,7 @@ public class Winner {
 
     /**
      * Ermittelt die Tage die der Sieger als Führer fuhr.
+     *
      * @return Führungstage als Integer
      */
     public int getDaysInYellow() {
@@ -170,6 +186,7 @@ public class Winner {
 
     /**
      * Setzt die Tage die der Sieger als Führer fuhr.
+     *
      * @param daysInYellow Führungstage als Integer
      */
     public void setDaysInYellow(int daysInYellow) {
