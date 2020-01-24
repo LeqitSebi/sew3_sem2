@@ -1,9 +1,6 @@
 package slanitsch;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.function.UnaryOperator;
 
 public class Lambdas {
@@ -74,17 +71,19 @@ public class Lambdas {
      * @param elements String array zum sortieren
      * @return sortierte Liste
      */
-    private static List<String> numerisch(String... elements) {
-        List<String> out = Arrays.asList(elements);
-        out.sort((o1, o2) -> {
-            if (!o1.matches("-?\\d*")) {
-                return 1;
-            }
-            if (!o2.matches("-?\\d*")) {
+    public static List<String> numerisch(String... elements){
+        List<String> erg = new ArrayList<>(Arrays.asList(elements));
+        erg.sort((a, b) -> {
+            if (a.matches("[\\d-]+") && b.matches("[\\d-]+")){
+                return Integer.compare(Integer.parseInt(a), Integer.parseInt(b));
+            } else if(a.matches("[\\d-]+")){
                 return -1;
+            } else if (b.matches("[\\d-]+")){
+                return 1;
+            } else {
+                return a.compareTo(b);
             }
-            return Integer.compare(Integer.parseInt(o1), Integer.parseInt(o2));
         });
-        return out;
+        return erg;
     }
 }

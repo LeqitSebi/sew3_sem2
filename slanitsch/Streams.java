@@ -95,9 +95,7 @@ public class Streams {
      * @return Winner Objekt Liste
      */
     private static List<Winner> winnersStartAtTwo() {
-        List<Winner> output = new LinkedList<>();
-        tdfWinners.stream().skip(2).forEach(output::add);
-        return output;
+        return tdfWinners.stream().skip(2).collect(Collectors.toList());
     }
 
     /**
@@ -202,8 +200,7 @@ public class Streams {
      * @return Map der Nationalitäten + Sieger
      */
     private static Map<String, List<Winner>> winnersByNationality() {
-        Map<String, List<Winner>> output = new HashMap<>();
-        return output;
+        return tdfWinners.stream().collect(Collectors.groupingBy(Winner::getNationality));
     }
 
     /**
@@ -211,9 +208,8 @@ public class Streams {
      *
      * @return Map der Nationalitäten + Siegeszahl
      */
-    private static Map<String, Integer> nationalityWins() {
-        Map<String, Integer> output = new HashMap<>();
-        return output;
+    private static TreeMap<String, Long> nationalityWins() {
+        return tdfWinners.stream().collect(Collectors.groupingBy(Winner::getNationality, TreeMap::new, Collectors.counting()));
     }
 
 }
