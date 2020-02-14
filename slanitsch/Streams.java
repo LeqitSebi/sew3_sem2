@@ -1,7 +1,14 @@
 package slanitsch;
 
+import java.io.IOException;
+import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import static java.util.stream.Collectors.counting;
 
 import static slanitsch.Winner.tdfWinners;
 
@@ -104,9 +111,7 @@ public class Streams {
      * @return Liste der Sieger plus Jahre
      */
     private static List<String> mapWinnerYearNamesToList() {
-        List<String> output = new LinkedList<>();
-        tdfWinners.forEach(n -> output.add(n.getYear() + " - " + n.getName()));
-        return output;
+        return tdfWinners.stream().map(winner -> winner.getYear() + " - " + winner.getName()).collect(Collectors.toList());
     }
 
     /**
@@ -115,9 +120,7 @@ public class Streams {
      * @return Liste der Namenslängen
      */
     private static List<Integer> nameLengths() {
-        List<Integer> output = new LinkedList<>();
-        tdfWinners.forEach(n -> output.add(n.getName().length()));
-        return output;
+        return tdfWinners.stream().map(winner -> winner.getName().length()).collect(Collectors.toList());
     }
 
     /**
@@ -189,9 +192,7 @@ public class Streams {
      * @return Siegerteams durch Beistriche getrennt
      */
     private static String allTeams() {
-        final String[] output = {""};
-        tdfWinners.forEach(n -> output[0] += n.getTeam() + ",");
-        return output[0];
+        return tdfWinners.stream().map(Winner::getTeam).collect(Collectors.toList()).toString().replaceAll("[\\[\\]]", "");
     }
 
     /**
@@ -211,5 +212,92 @@ public class Streams {
     private static TreeMap<String, Long> nationalityWins() {
         return tdfWinners.stream().collect(Collectors.groupingBy(Winner::getNationality, TreeMap::new, Collectors.counting()));
     }
+
+    /**
+     * Gibt einen fibonacci Stream zurück.
+     *
+     * @param numberOfValues values
+     * @return Stream
+     */
+    public static Stream<BigInteger> fibonacci(int numberOfValues) {
+        return Stream.iterate(new BigInteger[]{BigInteger.ONE, BigInteger.ONE}, i -> new BigInteger[]{i[1], i[0].add(i[1])})
+                .limit(numberOfValues)
+                .map(i -> i[0]);
+    }
+
+    /**
+     * Gibt die N größten Files in einem Ordner zurück.
+     *
+     * @param path                 path String
+     * @param numberOFLargestFiles Anzahl der auszugebenden Files
+     * @return List
+     * @throws IOException wird geworfen wenn zB kein File gefunden wird
+     */
+    public static Stream<Path> greatestFiles(Path path, int numberOFLargestFiles) {
+        try {
+            return Files.walk(path)
+                    .sorted((f1, f2) -> Long.compare(f2.toFile().length(), f1.toFile().length()))
+                    .filter(file -> file.toFile().isFile())
+                    .limit(numberOFLargestFiles);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Stream.empty();
+    }
+
+    /**
+     * Gibt die absolute Häufigkeit aller chars in einer String Liste als Map zurück.
+     *
+     * @param stringList List<String>
+     * @return Map (Key ist char; Value ist Häufigkeit (Long))
+     */
+    public static Map<Character, Long> getCharStatistic(List<String> stringList) {
+        return stringList.stream()
+                .collect(Collectors.joining())
+                .chars()
+                .mapToObj(c -> (char) c)
+                .collect(Collectors.groupingBy(c -> c, TreeMap::new, counting()));
+    }
+
+    public static final Pattern ISMORSE = Pattern.compile("([·−]+/+)+\\s*");
+
+    /**
+     * Konvertiert einen String zu Morse und wieder zurück; berücksichtigt keine Satzzeichen oder Groß- Kleinschreibung
+     *
+     * @param input String (entweder Morse Code oder normaler Text
+     * @return Konvertierter String
+     */
+    public static String toMorseCode(String input) {
+        final Map<String, String> translator = new TreeMap<>();
+        String[] keys = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P",
+                "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0",
+                "Ä", "Ö", "Ü", "ß", "·−", "−···", "−·−·", "−··", "·", "··−·", "−−·", "····", "··", "·−−−", "−·−",
+                "·−··", "−−", "−·", "−−−", "·−−·", "−−·−", "·−·", "···", "−", "··−", "···−", "·−−", "−··−", "−·−−",
+                "−−··", "·−−−−", "··−−−", "···−−", "····−", "·····", "−····", "−−···", "−−−··", "−−−−·", "−−−−−",
+                "·−·−", "−−−·", "··−−", "···−−··", " ", "/", "!", ".", "?"};
+        String[] values = new String[]{"·−/", "−···/", "−·−·/", "−··/", "·/", "··−·/", "−−·/", "····/", "··/", "·−−−/",
+                "−·−/", "·−··/", "−−/", "−·/", "−−−/", "·−−·/", "−−·−/", "·−·/", "···/", "−/", "··−/", "···−/", "·−−/",
+                "−··−/", "−·−−/", "−−··/", "·−−−−/", "··−−−/", "···−−/", "····−/", "·····/", "−····/", "−−···/",
+                "−−−··/", "−−−−·/", "−−−−−/", "·−·−/", "−−−·/", "··−−/", "···−−··/", "A", "B", "C", "D", "E", "F", "G",
+                "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "1",
+                "2", "3", "4", "5", "6", "7", "8", "9", "0", "Ä", "Ö", "Ü", "ß", "/", " ", "//", "//", "//"};
+
+        input = input.replaceAll("[,]", "").toUpperCase();
+        for (int i = 0; i < keys.length; i++) translator.put(keys[i], values[i]);
+
+        String[] inputArray;
+        if (ISMORSE.matcher(input).matches()) inputArray = input.split("/");
+        else inputArray = input.split("");
+
+        return Arrays
+                .stream(inputArray)
+                .map(translator::get)
+                .map(e -> {
+                    if (e == null) return " ";
+                    return e;
+                })
+                .collect(Collectors.joining());
+    }
+
 
 }
