@@ -7,13 +7,11 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class pferderennen extends javax.swing.JFrame {
-    public static void main(String args[]){
+    public static void main(String[] args){
         Konto useraccount = new Konto(5000);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
@@ -27,7 +25,7 @@ public class pferderennen extends javax.swing.JFrame {
         JPanel panel = new JPanel(); // the panel is not visible in output
         JLabel label = new JLabel("Enter Amount (in €)");
         JTextField tf = new JTextField(10); // accepts upto 10 characters
-        JLabel label2 = new JLabel("Enter Horse");
+        JLabel label2 = new JLabel("Enter Horse(1-3)");
         JTextField tf2 = new JTextField(10); // accepts upto 10 characters
         JButton send = new JButton("Send");
         JButton reset = new JButton("Reset");
@@ -47,8 +45,9 @@ public class pferderennen extends javax.swing.JFrame {
         ta.setText("Event Log:");
 
         Font font =  new Font("Verdana", Font.BOLD, 16);
-        JLabel balance = new JLabel("Balance: " + useraccount);
-        balance.setFont(font);
+        //TODO: JLabel doesn't update
+        final JLabel[] balance = {new JLabel("Balance: " + useraccount)};
+        balance[0].setFont(font);
         StyledDocument doc = ta.getStyledDocument();
 
         Style style = ta.addStyle("Test", null);
@@ -73,25 +72,35 @@ public class pferderennen extends javax.swing.JFrame {
 
         //Adding Components to the frame.
         frame.getContentPane().add(horses);
-        frame.getContentPane().add(BorderLayout.NORTH, balance);
+        frame.getContentPane().add(BorderLayout.NORTH, balance[0]);
         frame.getContentPane().add(BorderLayout.SOUTH, panel);
         frame.getContentPane().add(BorderLayout.EAST, ta);
         frame.setVisible(true);
 
-        send.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try { doc.insertString(doc.getLength(), "\nPlaced " + tf.getText() + "€ on Horse " + tf2.getText(),style); }
-                catch (BadLocationException error){}
+        final int[] bets = new int[]{0, 0, 0};
+
+        send.addActionListener(e -> {
+            switch (tf2.getText()) {
+                case "1":
+                    bets[0] = Integer.parseInt(tf.getText());
+                    break;
+                case "2":
+                    bets[1] = Integer.parseInt(tf.getText());
+                    break;
+                case "3":
+                    bets[2] = Integer.parseInt(tf.getText());
+                    break;
             }
+            int sum = bets[0] + bets[1] + bets[2];
+            useraccount.add(-sum);
+            balance[0] = new JLabel("Balance: " + useraccount);
+            try { doc.insertString(doc.getLength(), "\nPlaced " + tf.getText() + "€ on Horse " + tf2.getText(),style); }
+            catch (BadLocationException ignored){}
         });
 
-        reset.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tf.setText("");
-                tf2.setText("");
-            }
+        reset.addActionListener(e -> {
+            tf.setText("");
+            tf2.setText("");
         });
 
         AtomicLong startTime = new AtomicLong();
@@ -105,7 +114,6 @@ public class pferderennen extends javax.swing.JFrame {
             Thread t = new Thread(() -> {
                 startTime.set(System.currentTimeMillis());
                 for (double i = 0; i <= 100; i++) {
-                    double value = i;
                     horse1.setValue((int) i);
                     try {
                         double rnd = Math.random()*100;
@@ -115,11 +123,13 @@ public class pferderennen extends javax.swing.JFrame {
                     }
                 }
                 timeH1AT.set(System.currentTimeMillis());
+                useraccount.add(bets[0]*2);
+                balance[0] = new JLabel("Balance: " + useraccount);
                 if (!WinnerDeclared.get()){
                     WinnerDeclared.set(true);
                     try {
                         doc.insertString(doc.getLength(), "\nHorse 1 won with a time of " + (timeH1AT.get() - startTime.get())/1000.00 + "seconds", stylegreen);
-                    } catch (BadLocationException error) {
+                    } catch (BadLocationException ignored) {
                     }
                 }
             });
@@ -129,7 +139,6 @@ public class pferderennen extends javax.swing.JFrame {
         startbutt.addActionListener(ev -> {
             Thread t = new Thread(() -> {
                 for (double i = 0; i <= 100; i++) {
-                    double value = i;
                     horse2.setValue((int) i);
                     try {
                         double rnd = Math.random()*100;
@@ -139,11 +148,13 @@ public class pferderennen extends javax.swing.JFrame {
                     }
                 }
                 timeH2AT.set(System.currentTimeMillis());
+                useraccount.add(bets[1]*2);
+                balance[0] = new JLabel("Balance: " + useraccount);
                 if (!WinnerDeclared.get()){
                     WinnerDeclared.set(true);
                     try {
                         doc.insertString(doc.getLength(), "\nHorse 2 won with a time of " + (timeH2AT.get() - startTime.get())/1000.00 + "seconds", stylegreen);
-                    } catch (BadLocationException error) {
+                    } catch (BadLocationException ignored) {
                     }
                 }
             });
@@ -153,7 +164,6 @@ public class pferderennen extends javax.swing.JFrame {
         startbutt.addActionListener(ev -> {
             Thread t = new Thread(() -> {
                 for (double i = 0; i <= 100; i++) {
-                    double value = i;
                     horse3.setValue((int) i);
                     try {
                         double rnd = Math.random()*100;
@@ -163,11 +173,13 @@ public class pferderennen extends javax.swing.JFrame {
                     }
                 }
                 timeH3AT.set(System.currentTimeMillis());
+                useraccount.add(bets[2]*2);
+                balance[0] = new JLabel("Balance: " + useraccount);
                 if (!WinnerDeclared.get()){
                     WinnerDeclared.set(true);
                     try {
                         doc.insertString(doc.getLength(), "\nHorse 3 won with a time of " + (timeH3AT.get() - startTime.get())/1000.00 + "seconds", stylegreen);
-                    } catch (BadLocationException error) {
+                    } catch (BadLocationException ignored) {
                     }
                 }
             });
