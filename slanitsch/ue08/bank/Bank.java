@@ -1,3 +1,5 @@
+package slanitsch.ue08.bank;
+
 public class Bank {
 
     public static void main(String[] args) {
@@ -7,6 +9,7 @@ public class Bank {
         System.out.println("k1 - " + k1);
         System.out.println("k2 - " + k2);
         System.out.println("k3 - " + k3);
+        System.out.println("-----------------------------");
         Ueberweiser ue1 = new Ueberweiser(k1, k2, 10000000, 10);
         Ueberweiser ue2 = new Ueberweiser(k2, k3, 10000000, 10);
         Ueberweiser ue3 = new Ueberweiser(k3, k1, 10000000, 10);
