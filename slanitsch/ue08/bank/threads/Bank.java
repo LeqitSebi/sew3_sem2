@@ -1,8 +1,8 @@
-package slanitsch.ue08.bank;
+package slanitsch.ue08.bank.threads;
 
 public class Bank {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Konto k1 = new Konto(60000000);
         Konto k2 = new Konto(70000000);
         Konto k3 = new Konto(120000000);
@@ -14,20 +14,22 @@ public class Bank {
         Ueberweiser ue2 = new Ueberweiser(k2, k3, 10000000, 10);
         Ueberweiser ue3 = new Ueberweiser(k3, k1, 10000000, 10);
         long before = System.currentTimeMillis();
-        ue1.run();
-        ue2.run();
-        ue3.run();
+        ue1.start();
+        ue2.start();
+        ue3.start();
+        ue3.join();
         long after = System.currentTimeMillis();
         System.out.println("k1 - " + k1);
         System.out.println("k2 - " + k2);
         System.out.println("k3 - " + k3);
         System.out.println("Alle Überweisungen in " + (after-before) + "ms abgeschlossen");
-        //avg time for serial methode 96ms
+        //avg time for threaded methode 120ms - but wrong
+        //avg time for synced methode 1500ms - still wrong
     }
 
 }
 
-class Ueberweiser{
+class Ueberweiser extends Thread{
     Konto von;
     Konto nach;
     int anzahl;
@@ -67,7 +69,7 @@ class Konto{
         this.kontostand = kontostand;
     }
 
-    void add(int betrag){
+    public synchronized void add(int betrag){
         this.kontostand += betrag;
     }
 
@@ -86,4 +88,5 @@ class Konto{
         return "Kontostand: " + output.substring(0, output.length()-1) + "€";
     }
 }
+
 

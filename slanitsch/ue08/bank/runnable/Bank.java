@@ -1,4 +1,4 @@
-package slanitsch.ue08.threads;
+package slanitsch.ue08.bank.runnable;
 
 public class Bank {
 
@@ -10,24 +10,29 @@ public class Bank {
         System.out.println("k2 - " + k2);
         System.out.println("k3 - " + k3);
         System.out.println("-----------------------------");
-        Ueberweiser ue1 = new Ueberweiser(k1, k2, 10000000, 10);
-        Ueberweiser ue2 = new Ueberweiser(k2, k3, 10000000, 10);
-        Ueberweiser ue3 = new Ueberweiser(k3, k1, 10000000, 10);
+        Runnable r1 = new Ueberweiser(k1, k2, 1000, 10);
+        Runnable r2 = new Ueberweiser(k2, k3, 1000, 10);
+        Runnable r3 = new Ueberweiser(k3, k1, 1000, 10);
+        Thread myThread1 = new Thread(r1);
+        Thread myThread2 = new Thread(r2);
+        Thread myThread3 = new Thread(r3);
         long before = System.currentTimeMillis();
-        ue1.start();
-        ue2.start();
-        ue3.start();
+        myThread1.start();
+        myThread2.start();
+        myThread3.start();
+        myThread3.join();
         long after = System.currentTimeMillis();
         System.out.println("k1 - " + k1);
         System.out.println("k2 - " + k2);
         System.out.println("k3 - " + k3);
         System.out.println("Alle Überweisungen in " + (after-before) + "ms abgeschlossen");
-        //avg time for second methode 9 ms
+        //avg time for runnable methode 4 ms (10000000 transactions per Thread)
+        //avg time for runnable with sleep 1000ms (1000 transactions per Thread)
     }
 
 }
 
-class Ueberweiser extends Thread{
+class Ueberweiser implements Runnable {
     Konto von;
     Konto nach;
     int anzahl;
@@ -44,6 +49,11 @@ class Ueberweiser extends Thread{
         for (int i = 0; i < anzahl; i++) {
             von.add(-betrag);
             nach.add(betrag);
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
