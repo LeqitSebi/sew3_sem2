@@ -1,6 +1,5 @@
 package slanitsch.ue08.pferderennen;
 
-
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Style;
