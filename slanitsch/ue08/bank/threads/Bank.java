@@ -118,8 +118,10 @@ class Konto{
      * adds a specific balance to an account
      * @param betrag amount to add
      */
-    public synchronized void add(int betrag){
-        this.kontostand += betrag;
+    public synchronized void add(int betrag) {
+        int wert = getKontostand();
+        wert = wert + betrag;
+        setKontostand(wert);
     }
 
     /**
