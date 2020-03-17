@@ -92,7 +92,7 @@ public class pferderennen extends javax.swing.JFrame {
             }
             int sum = bets[0] + bets[1] + bets[2];
             useraccount.add(-sum);
-            balance[0] = new JLabel("Balance: " + useraccount);
+            balance[0].setText("Balance: " + useraccount);
             try { doc.insertString(doc.getLength(), "\nPlaced " + tf.getText() + "€ on Horse " + tf2.getText(),style); }
             catch (BadLocationException ignored){}
         });
@@ -123,7 +123,7 @@ public class pferderennen extends javax.swing.JFrame {
                 }
                 timeH1AT.set(System.currentTimeMillis());
                 useraccount.add(bets[0]*2);
-                balance[0] = new JLabel("Balance: " + useraccount);
+                balance[0].setText("Balance: " + useraccount);
                 if (!WinnerDeclared.get()){
                     WinnerDeclared.set(true);
                     try {
@@ -148,7 +148,7 @@ public class pferderennen extends javax.swing.JFrame {
                 }
                 timeH2AT.set(System.currentTimeMillis());
                 useraccount.add(bets[1]*2);
-                balance[0] = new JLabel("Balance: " + useraccount);
+                balance[0].setText("Balance: " + useraccount);
                 if (!WinnerDeclared.get()){
                     WinnerDeclared.set(true);
                     try {
@@ -173,7 +173,7 @@ public class pferderennen extends javax.swing.JFrame {
                 }
                 timeH3AT.set(System.currentTimeMillis());
                 useraccount.add(bets[2]*2);
-                balance[0] = new JLabel("Balance: " + useraccount);
+                balance[0].setText("Balance: " + useraccount);
                 if (!WinnerDeclared.get()){
                     WinnerDeclared.set(true);
                     try {
