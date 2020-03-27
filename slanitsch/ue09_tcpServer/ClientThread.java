@@ -35,6 +35,7 @@ public class ClientThread extends Thread {
                 n = in.nextLine();
                 writemsg("Hallo " + n + "\n");
                 spitzname = n;
+                writemsg(spitzname + "> ");
             }
 
             while(true) {
@@ -59,7 +60,8 @@ public class ClientThread extends Thread {
                         writemsg("    - /exit   : Verlässt den Server und schließt den Chat\n");
                         writemsg("    - /ping  : Zeigt an wer im Chat online ist\n");
 
-                    } else Server.send(n + "\n");
+                    } else Server.send(spitzname + " sagte: " + n + "\n");
+                    writemsg(spitzname + "> ");
                 }
             }
         } catch (IOException e) {
