@@ -22,11 +22,12 @@ public class Server {
             e.printStackTrace();
         }
         System.out.println("Server gestartet!");
-        System.out.println("Warte auf Clinets...");
+        System.out.println("Warte auf Clients...");
         while(!ss.isClosed()) {
             try {
                 s = ss.accept();
                 ClientThread chat = new ClientThread(s);
+                System.out.println(chat.getId());
                 al.add(chat);
                 chat.start();
             } catch (IOException e) {
