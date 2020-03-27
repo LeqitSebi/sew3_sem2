@@ -36,14 +36,33 @@ public class Server {
         }
     }
 
-    public static void send(String os) {
+    public static boolean sendPrivate(String os, ClientThread sender){
+        String[] senderAndMsg = os.split(":");
+        for (ClientThread ct : al){
+            if (ct.spitzname.equals(senderAndMsg[0])){
+                ct.writemsg("\n" + sender.spitzname + " flüsterte: " + senderAndMsg[1]);
+                ct.writemsg("\n" + ct.spitzname + "> ");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void send(String os, ClientThread sender) {
         if(!os.equalsIgnoreCase("exit")) System.out.println(os);
-        for(ClientThread ct : al) ct.writemsg(os);
+        for(ClientThread ct : al){
+            if (!ct.equals(sender)){
+                ct.writemsg("\n");
+                ct.writemsg(os);
+            }
+            ct.writemsg(ct.spitzname + "> ");
+        }
+
     }
 
     public static void close() {
-        //write("Server wird beendet!");
-        if(al.size() != 0) send("exit");
+        System.out.println("Server wird beendet!");
+        if(al.size() != 0) send("exit", null);
         System.exit(0);
     }
 }
