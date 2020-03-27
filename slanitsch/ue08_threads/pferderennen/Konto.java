@@ -1,4 +1,4 @@
-package slanitsch.ue08.pferderennen;
+package slanitsch.ue08_threads.pferderennen;
 
 public class Konto {
     int kontostand;
