@@ -1,4 +1,4 @@
-package slanitsch.ue08_threads.bank;
+package slanitsch.ue08_threads.bank.noThread;
 
 /**
  * Bank that is used for main method (to manage accounts and transactions).
