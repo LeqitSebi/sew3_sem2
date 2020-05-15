@@ -3,11 +3,16 @@ package slanitsch.ue09_tcpServer;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+/**
+ * @author slanitsch
+ * klasse: 3CI
+ * school_year: 2019/20
+ */
 public class ClientThread extends Thread {
 
     Socket s;
@@ -33,15 +38,26 @@ public class ClientThread extends Thread {
         this.sentMSG = sentMSG;
     }
 
+    /**
+     * Constructur für den ClientThread.
+     * @param so
+     */
     public ClientThread(Socket so) {
         s = so;
     }
 
+    /**
+     * Schreibt eine Nachricht auf den Bildschirm/in das Terminal.
+     * @param s Nachricht, die angezeigt werden soll
+     */
     public void writemsg(String s) {
         out.print(s);
         out.flush();
     }
 
+    /**
+     * Methode, um den ClientThread zu starten und alle wichtigen Handlungen zu bearbeiten.
+     */
     @Override
     public void run() {
         try {
@@ -57,8 +73,10 @@ public class ClientThread extends Thread {
                 writemsg("Welchen Spitznamen möchtest du haben: ");
                 if (in.hasNext()) {
                     n = in.nextLine();
-                    if (Server.al.stream().noneMatch(x -> x.spitzname.equals(n))){
+                    ArrayList<ClientThread> toTest = Server.al;
+                    if (toTest.stream().noneMatch(x -> x.spitzname.equals(n))){
                         writemsg("Hallo " + n + "\n");
+                        Server.al.add(this);
                         spitzname = n;
                         writemsg(spitzname + "> ");
                         nameset = true;
@@ -79,8 +97,9 @@ public class ClientThread extends Thread {
                         writemsg("pong\n");
                         writemsg(spitzname + "> ");
                     } else if(n.equalsIgnoreCase("/stats")){
-                        List<String> names = Server.al.stream().map(ClientThread::getSpitzname).collect(Collectors.toList());
-                        List<Integer> sentMSGall = Server.al.stream().map(ClientThread::getSentMSG).collect(Collectors.toList());
+                        ArrayList<ClientThread> toTest = Server.al;
+                        List<String> names = toTest.stream().map(ClientThread::getSpitzname).collect(Collectors.toList());
+                        List<Integer> sentMSGall = toTest.stream().map(ClientThread::getSentMSG).collect(Collectors.toList());
                         StringBuilder statMassage = new StringBuilder();
                         for (int i = 0; i < names.size(); i++) {
                             statMassage.append(names.get(i)).append(" hat ").append(sentMSGall.get(i)).append(" Nachrichten gesendet.\n");
@@ -111,7 +130,11 @@ public class ClientThread extends Thread {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            try {
+                throw new Exception("Unbekannter Fehler bei der Verbindung eines Clients zum Server");
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
         }
     }
 }
