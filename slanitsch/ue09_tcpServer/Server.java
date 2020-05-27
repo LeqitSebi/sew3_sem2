@@ -55,7 +55,7 @@ public class Server {
     /**
      * Methode um eine Privatnachricht an einen bestimmten User zu senden.
      * @param os Nachricht die gesendet werden soll
-     * @param sender Client der die Nachricht gesendet hat
+     * @param sender Client der die Nachricht gesendet hataufgstandn
      * @return gibt zurück, ob die Nachricht erfolgreich versendet wurde
      */
     public static boolean sendPrivate(String os, ClientThread sender){
